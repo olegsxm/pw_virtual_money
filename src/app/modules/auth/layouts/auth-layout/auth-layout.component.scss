@@ -1,0 +1,13 @@
+:host{
+  display: block;
+}
+
+::ng-deep{
+  .auth-form{
+    width: 30%;
+    max-width: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+}
