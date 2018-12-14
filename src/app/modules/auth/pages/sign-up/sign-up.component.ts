@@ -1,6 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../../shared/services/auth.service';
+import {AuthErrorComponent} from '../../components/auth-error/auth-error.component';
+import {catchError, mergeMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,6 +13,7 @@ import {AuthService} from '../../../../shared/services/auth.service';
 })
 export class SignUpComponent implements OnInit {
   form: FormGroup;
+  @ViewChild(AuthErrorComponent) error: AuthErrorComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -32,9 +36,9 @@ export class SignUpComponent implements OnInit {
     this.authService.signUp(this.form.value)
       .subscribe(
         response => {},
-        error => {console.log(error)},
-        () => {}
+        error =>  this.error.show(error.error)
       );
   }
-
 }
+
+
