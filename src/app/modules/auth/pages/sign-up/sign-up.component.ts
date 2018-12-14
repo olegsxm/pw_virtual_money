@@ -2,8 +2,6 @@ import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/co
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../../shared/services/auth.service';
 import {AuthErrorComponent} from '../../components/auth-error/auth-error.component';
-import {catchError, mergeMap} from 'rxjs/operators';
-import {of} from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
