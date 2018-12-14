@@ -8,13 +8,15 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import { AuthErrorComponent } from './components/auth-error/auth-error.component';
 
 @NgModule({
   declarations: [
     SignUpComponent,
     AuthLayoutComponent,
     SignInComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    AuthErrorComponent
   ],
   imports: [
     CommonModule,
