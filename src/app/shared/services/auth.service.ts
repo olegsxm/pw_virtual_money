@@ -5,19 +5,20 @@ import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {UserModel} from '../models/user.model';
 import {isNullOrUndefined} from 'util';
 import {Router} from '@angular/router';
-import {MonoTypeOperatorFunction, of} from 'rxjs';
+import {BehaviorSubject, MonoTypeOperatorFunction, of} from 'rxjs';
+import {UsersService} from './users.service';
 
 /**
  *  name: test username
  *  email: testusername9@testusername.testusername
  *  password: testusername
- * */
+ **/
 
 function  getUserInfo<T>(context): MonoTypeOperatorFunction<T> {
   return mergeMap(response => context.getUserInfo()
     .pipe(
       tap((user: UserModel) => {
-        context.setUser(user);
+        context.userService.setUser(user);
         context.router.navigateByUrl('');
       }),
       catchError(err => of(err))
@@ -29,14 +30,13 @@ function  getUserInfo<T>(context): MonoTypeOperatorFunction<T> {
 })
 export class AuthService {
   private readonly LS_KEY_TOKEN = 'token';
-  private readonly LS_KEY_USER = 'USER';
 
-  private user: UserModel = this.getUser();
   private token: string = this.getToken();
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private userService: UsersService
   ) {
   }
 
@@ -47,13 +47,9 @@ export class AuthService {
   getToken(): string | null {
     return isNullOrUndefined(this.token) ? localStorage.getItem(this.LS_KEY_TOKEN) : this.token;
   }
-
-  setUser(user: UserModel): void {
-    this.user = user;
-    localStorage.setItem(this.LS_KEY_USER, JSON.stringify(user));
-  }
-  getUser(): UserModel {
-    return isNullOrUndefined(this.user) ? JSON.parse(localStorage.getItem(this.LS_KEY_USER)) : this.user;
+  clearToken() {
+    this.token = null;
+    localStorage.removeItem(this.LS_KEY_TOKEN);
   }
 
   getUserInfo() {
@@ -79,9 +75,8 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.LS_KEY_TOKEN);
-    localStorage.removeItem(this.LS_KEY_USER);
-    this.user = null;
-    this.token = null;
+    this.clearToken();
+    this.userService.clearUser();
+    this.router.navigateByUrl('auth/sign-in');
   }
 }
