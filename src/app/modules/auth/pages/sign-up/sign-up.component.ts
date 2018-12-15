@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../../shared/services/auth.service';
 import {AuthErrorComponent} from '../../components/auth-error/auth-error.component';
 
@@ -23,7 +23,21 @@ export class SignUpComponent implements OnInit {
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
+      confirm: [null, [Validators.required]]
+    }, {
+      validator: this.matchPassword
     });
+  }
+
+  private matchPassword(control: AbstractControl) {
+    const password = control.get('password').value;
+    const confirmPassword = control.get('confirm').value;
+
+    if (password !== confirmPassword) {
+      control.get('confirm').setErrors( {confirm: true} );
+    } else {
+      return null;
+    }
   }
 
   onSubmit() {

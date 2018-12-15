@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate, CanLoad, CanActivateChild {
   private isAuth(): boolean {
     const user = this.userService.getUser().value;
     const token = this.authService.getToken();
-    if (!isNullOrUndefined(user) || isNullOrUndefined(token)) {
+    if (!isNullOrUndefined(user) || !isNullOrUndefined(token)) {
       return true;
     }
 
