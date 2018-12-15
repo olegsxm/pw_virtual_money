@@ -12,6 +12,8 @@ import {UsersService} from './users.service';
  *  name: test username
  *  email: testusername9@testusername.testusername
  *  password: testusername
+ *
+ *  email: user_user@user.user
  **/
 
 function  getUserInfo<T>(context): MonoTypeOperatorFunction<T> {

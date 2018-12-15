@@ -4,6 +4,7 @@ import {TransactionsService} from '../../services/transactions.service';
 import {UsersService} from '../../../../shared/services/users.service';
 import {catchError, debounceTime, filter, mergeMap, } from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+import {NotificationsService} from 'angular2-notifications';
 import {isNullOrUndefined} from 'util';
 
 @Component({
@@ -19,13 +20,18 @@ export class CreateTransactionsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private transactionsService: TransactionsService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private notification: NotificationsService
   ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
-      filter: [null, [Validators.required]],
-      amount: [null, [Validators.min(1), Validators.required]]
+      filter: [this.filterData, [Validators.required]],
+      amount: [this.amount, [
+        Validators.min(1),
+        Validators.required,
+        Validators.max(this.usersService.getUser().value.balance)
+      ]]
     });
 
     this.users$ = this.form.get('filter')
@@ -39,6 +45,20 @@ export class CreateTransactionsComponent implements OnInit {
       );
   }
 
+  private get filterData() {
+    const transaction = this.transactionsService.repeatedTransaction;
+    return isNullOrUndefined(transaction)
+    ? null
+    : {name: transaction.username};
+  }
+
+  private get amount() {
+    const transaction = this.transactionsService.repeatedTransaction;
+    return isNullOrUndefined(transaction)
+      ? null
+      : transaction.amount * -1;
+  }
+
   displayUser(user) {
     return user ? user.name : undefined;
   }
@@ -50,10 +70,12 @@ export class CreateTransactionsComponent implements OnInit {
     }
 
     const request = this.transactionsService.createTransaction(
-      this.form.value.filter.name, this.form.value.filter.amount)
+      this.form.value.filter.name, this.form.value.amount)
       .subscribe(
-        response => {
-          console.log(`Уведомление`, response);
+        (response: any) => {
+          this.usersService.updateUser({balance: response.balance});
+          this.notification.success('Transaction', 'success');
+          this.transactionsService.repeatedTransaction = null;
         },
         error => {},
         () => request.unsubscribe()

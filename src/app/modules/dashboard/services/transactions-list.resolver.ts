@@ -15,7 +15,7 @@ export class TransactionsListResolver implements Resolve<any> {
   resolve(): Observable<any> | Promise<any> | any {
     return this.transactionsService.transactions
       .pipe(
-        map((response: {trans_token: any[]}) => response.trans_token)
+        map((response: {trans_token: any[]}) => response.trans_token),
       );
   }
 }

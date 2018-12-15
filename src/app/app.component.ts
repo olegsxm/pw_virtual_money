@@ -33,3 +33,8 @@ export class AppComponent {
     }
   }
 }
+
+/**
+ *  TODO: Create interface for all entities
+ *  TODO: Implement adaptive design
+ **/

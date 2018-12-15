@@ -8,7 +8,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ApiInterceptor} from './shared/interceptors/api.interceptor';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import {SimpleNotificationsModule} from 'angular2-notifications';
 @NgModule({
   declarations: [
     AppComponent
@@ -18,7 +18,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SimpleNotificationsModule.forRoot(),
   ],
   providers: [
     {

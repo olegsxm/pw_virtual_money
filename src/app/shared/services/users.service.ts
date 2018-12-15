@@ -20,7 +20,10 @@ export class UsersService {
   getUser(): BehaviorSubject<UserModel> {
     return this.user;
   }
-
+  updateUser(user: Partial<UserModel>): void {
+    this.user.next({...this.user.value, ...user});
+    this.setUser(this.user.value);
+  }
   clearUser() {
     this.user.next(null);
     localStorage.removeItem(this.LS_KEY_USER);
