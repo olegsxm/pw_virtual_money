@@ -1,0 +1,18 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span class="space"></span>
+    <span class="balance">Balance: {{(user$ | async)?.balance}}</span>
+    <span class="user-name">{{ (user$ | async)?.name }}</span>
+    <div class="menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" >
+        <button class="menu-item" (click)="logout()" mat-menu-item>
+          <span>Log Out</span>
+          <mat-icon>directions_run</mat-icon>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
