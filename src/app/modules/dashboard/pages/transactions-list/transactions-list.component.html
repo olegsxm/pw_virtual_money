@@ -1,10 +1,10 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="transactions.data.length > 0">
   <mat-form-field class="full-width">
     <input matInput placeholder="Filter" (input)="applyFilter($event.target.value)" autocomplete="off">
   </mat-form-field>
 </div>
 
-<div class="wrapper">
+<div *ngIf="transactions.data.length > 0" class="wrapper">
   <table class="full-width" mat-table [dataSource]="transactions" matSort>
 
     <!--Date column-->
@@ -44,4 +44,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+</div>
+
+<div class="wrapper">
+  <p *ngIf="transactions.data.length === 0">Not transactions yet</p>
 </div>
