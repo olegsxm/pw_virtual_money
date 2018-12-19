@@ -1,0 +1,19 @@
+<div class="auth-wrapper">
+  <h1>Sign Up</h1>
+  <form class="auth-form" [formGroup]="form" autocomplete="off" (submit)="onSubmit()">
+    <mat-form-field>
+      <input autofocus type="text" matInput placeholder="Enter your name" formControlName="username">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="email" (focus)="error.hide()" matInput placeholder="Enter your email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" matInput placeholder="Enter your password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" matInput placeholder="Confirm your password" formControlName="confirm">
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="form.invalid">SignUp</button>
+    <app-auth-error></app-auth-error>
+  </form>
+</div>

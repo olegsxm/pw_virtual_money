@@ -1,0 +1,16 @@
+<router-outlet></router-outlet>
+
+<simple-notifications [options]="{
+      timeOut: 2500,
+      showProgressBar: true,
+      pauseOnHover: true,
+      clickToClose: false
+}"></simple-notifications>
+
+<mat-progress-spinner
+  *ngIf="loading$ | async"
+  class="spinner"
+  color="primary"
+  diameter="64"
+  mode="indeterminate">
+</mat-progress-spinner>
